@@ -1,11 +1,14 @@
 package com.chandra.mvvmretrofitrxjavaroomglidedagger.repository;
 
 import android.app.Application;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.chandra.mvvmretrofitrxjavaroomglidedagger.db.RoomDatabaseApp;
+import com.chandra.mvvmretrofitrxjavaroomglidedagger.db.UserDao;
 import com.chandra.mvvmretrofitrxjavaroomglidedagger.model.User;
 import com.chandra.mvvmretrofitrxjavaroomglidedagger.webservice.ServiceGenrator;
 import com.chandra.mvvmretrofitrxjavaroomglidedagger.webservice.UserApiClient;
@@ -20,19 +23,24 @@ public class Repository {
     private Application mAppContext;
     List<User> userList;
     private MutableLiveData<List<User>> mUserMutableLiveData = new MutableLiveData<>();
-
     private UserApiClient userApiClient;
-//    private LiveData<List<User>> userListLiveData;
+    private UserDao userDao;
+    private RoomDatabaseApp mRoomDatabaseApp;
+    private static LiveData<List<User>> mListLiveDataUsers;
 
-    private Repository() {
+    private Repository(Application application) {
         userApiClient = UserApiClient.getmUserApiClientInstance();
+        if(application!=null)
+        mRoomDatabaseApp = RoomDatabaseApp.getRoomDatabaseAppInstance(application);
+        userDao = mRoomDatabaseApp.userDao();
+
     }
 
 
     // making this class as Singletoi
-    public synchronized static Repository getRepositoryInstance() {
+    public synchronized static Repository getRepositoryInstance(Application application) {
         if (null == mRepositoryInstance) {
-            mRepositoryInstance = new Repository();
+            mRepositoryInstance = new Repository(application);
         }
         return mRepositoryInstance;
     }
@@ -42,9 +50,25 @@ public class Repository {
 //        mUserMutableLiveData.setValue(userList);
 //
 //        return mUserMutableLiveData;
-        return ServiceGenrator.getUsers();
+//        return ServiceGenrator.getUsers();
 
 
+        // Need to write logic to retrive data from the database
+        return getUserListFromDB();
+    }
+
+
+    public void insertUserInDB(User user){
+
+    }
+
+    public void deleteUserFromDB(User user){
+
+    }
+
+    public LiveData<List<User>> getUserListFromDB(){
+//        new ReadUsersFromDBThroughAsynch(userDao).execute();
+        return userDao.getUserList();
     }
 
     private void initUserList() {
@@ -66,5 +90,25 @@ public class Repository {
 
     }
 
+
+//    public static class ReadUsersFromDBThroughAsynch extends AsyncTask<Void, LiveData<List<User>> ,Void>{
+//
+//        private UserDao userDao;
+//
+//        public ReadUsersFromDBThroughAsynch(UserDao userDao) {
+//            this.userDao = userDao;
+//        }
+//
+//        @Override
+//        protected  LiveData<List<User>>  doInBackground(Void... voids) {
+//            LiveData<List<User>> listLiveData = userDao.getUserList();
+//            return listLiveData;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(LiveData<List<User>> listLiveData) {
+//            mListLiveDataUsers = listLiveData;
+//        }
+//    }
 
 }

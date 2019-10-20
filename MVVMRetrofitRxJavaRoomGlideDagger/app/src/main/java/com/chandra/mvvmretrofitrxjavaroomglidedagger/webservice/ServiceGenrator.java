@@ -37,7 +37,7 @@ public class ServiceGenrator {
                 Log.d(TAG, "onResponse: " + call);
                 if (response.isSuccessful()) {
                     users.setValue(response.body());
-                    Log.d(TAG, "onResponse: "+users.getValue().get(0).getAvatarUrl());
+                    Log.d(TAG, "onResponse: " + users.getValue().get(0).getAvatarUrl());
                 } else {
                     Log.d(TAG, "onResponse: Error Occoured" + response.errorBody());
                 }

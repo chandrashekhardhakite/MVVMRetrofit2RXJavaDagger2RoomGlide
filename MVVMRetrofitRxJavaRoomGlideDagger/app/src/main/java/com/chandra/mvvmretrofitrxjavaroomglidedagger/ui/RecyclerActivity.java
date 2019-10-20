@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,7 +33,6 @@ public class RecyclerActivity extends AppCompatActivity {
         setContentView(R.layout.recyclerview);
         mRecyclerView = findViewById(R.id.recyleview);
         mRecylerActivityViewModel = ViewModelProviders.of(this).get(RecylerActivityViewModel.class);
-//        mRecylerActivityViewModel.
         intiRecyclerView();
         subsribeObserver();
     }
@@ -41,7 +41,7 @@ public class RecyclerActivity extends AppCompatActivity {
         mRecylerActivityViewModel.getUserList().observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
-                Log.d(TAG, "onChanged: "+users.get(0).getAvatarUrl());
+//                Log.d(TAG, "onChanged: "+users.get(0).getAvatarUrl());
                 mRecyclerActivityAdapter.updateUserList(users);
                 mRecyclerActivityAdapter.notifyDataSetChanged();
             }
