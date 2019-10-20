@@ -1,6 +1,7 @@
 package com.chandra.mvvmretrofitrxjavaroomglidedagger.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chandra.mvvmretrofitrxjavaroomglidedagger.R;
 import com.chandra.mvvmretrofitrxjavaroomglidedagger.adapter.RecyclerActivityAdapter;
-import com.chandra.mvvmretrofitrxjavaroomglidedagger.adapter.model.User;
+import com.chandra.mvvmretrofitrxjavaroomglidedagger.model.User;
 import com.chandra.mvvmretrofitrxjavaroomglidedagger.viewmodel.RecylerActivityViewModel;
 
 import java.util.List;
@@ -40,6 +41,7 @@ public class RecyclerActivity extends AppCompatActivity {
         mRecylerActivityViewModel.getUserList().observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
+                Log.d(TAG, "onChanged: "+users.get(0).getAvatarUrl());
                 mRecyclerActivityAdapter.updateUserList(users);
                 mRecyclerActivityAdapter.notifyDataSetChanged();
             }

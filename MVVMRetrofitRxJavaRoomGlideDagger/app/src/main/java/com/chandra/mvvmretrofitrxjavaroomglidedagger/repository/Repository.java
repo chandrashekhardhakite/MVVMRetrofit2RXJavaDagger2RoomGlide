@@ -6,7 +6,9 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.chandra.mvvmretrofitrxjavaroomglidedagger.adapter.model.User;
+import com.chandra.mvvmretrofitrxjavaroomglidedagger.model.User;
+import com.chandra.mvvmretrofitrxjavaroomglidedagger.webservice.ServiceGenrator;
+import com.chandra.mvvmretrofitrxjavaroomglidedagger.webservice.UserApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +19,13 @@ public class Repository {
     private static Repository mRepositoryInstance;
     private Application mAppContext;
     List<User> userList;
-    private MutableLiveData<List<User>> mUserMutableLiveData = new MutableLiveData<>() ;
+    private MutableLiveData<List<User>> mUserMutableLiveData = new MutableLiveData<>();
+
+    private UserApiClient userApiClient;
 //    private LiveData<List<User>> userListLiveData;
 
     private Repository() {
-
+        userApiClient = UserApiClient.getmUserApiClientInstance();
     }
 
 
@@ -34,9 +38,13 @@ public class Repository {
     }
 
     public LiveData<List<User>> getUserList() {
-        initUserList();
-        mUserMutableLiveData.setValue(userList);
-        return mUserMutableLiveData;
+//        initUserList();
+//        mUserMutableLiveData.setValue(userList);
+//
+//        return mUserMutableLiveData;
+        return ServiceGenrator.getUsers();
+
+
     }
 
     private void initUserList() {

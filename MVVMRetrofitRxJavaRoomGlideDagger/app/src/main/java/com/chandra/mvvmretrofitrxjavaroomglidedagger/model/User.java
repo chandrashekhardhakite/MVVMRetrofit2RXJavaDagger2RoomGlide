@@ -1,4 +1,4 @@
-package com.chandra.mvvmretrofitrxjavaroomglidedagger.adapter.model;
+package com.chandra.mvvmretrofitrxjavaroomglidedagger.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
